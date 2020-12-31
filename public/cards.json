@@ -1,0 +1,16 @@
+{
+    "0": {
+        "id": 0,
+        "type": "biome",
+        "name": "Desert Biome",
+        "description": "Healthy biome: Cannot interact with any cards in this biome"
+    },
+    "1": {
+        "id": 1,
+        "type": "creature",
+        "name": "Poppy",
+        "tier": "P",
+        "points": 0.25,
+        "Biome": ["Desert"]
+    }
+}

@@ -1,3 +1,9 @@
+Tutorial on how this is set up: https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project
+https://blog.miguelgrinberg.com/post/how-to-deploy-a-react-router-flask-application 
+You must (must must must) start both the react and flask servers to run it
+
+Too access all flask endpoints must be done with a JS fetch, this is because a browser redirect will bring you to the homepage.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
