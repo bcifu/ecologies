@@ -70,6 +70,7 @@ def startGame(data): #starts the game by sending the game state to each player, 
     for player in update['players']:
         #print(type(update['sids'][player]))
         emit('handUpdate', {'hand': list(update['hands'][player])}, room=update['sids'][player]) #need to actually fix this to send something reasonable in the json (lk a card id might be best and just have an external json file with all card info and ids for all cards nad just do it all by ID)
+    emit('gameStart', {'turn': game.players[game.currentPlayerTurn]}, room=game.gameId)
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)

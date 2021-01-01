@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import {useParams, useHistory} from "react-router-dom";
 import io from 'socket.io-client';
 
@@ -11,6 +11,7 @@ function Game(props){
     const [name, setName] = useState("")
     const [players, setPlayers] = useState([])
     const [status, setStatus] = useState("Loading")
+    const [turn, setTurn] = useState("")
     const socketContainer = useRef(null)
 
     useEffect(() => {
@@ -53,8 +54,13 @@ function Game(props){
             setPlayers(data['players'])
         })
 
+        socketContainer.current.on('gameStart', (data) => {
+            setStatus('Playing')
+            setTurn(data['turn'])
+        })
+
         socketContainer.current.on('handUpdate', (data) => {
-            console.log(data['hand'])
+            setCards(data['hand'])
             //TODO: Acutally get the hand to show, and add more cards
         })
     }
@@ -72,7 +78,6 @@ function Game(props){
     //arrow functions are not the most optimized but we go with it
     return (
         <div>
-            <p>{name}</p>
             <p>{status}</p>
             {status === "Player" && 
                 <div>
@@ -93,11 +98,43 @@ function Game(props){
             <ul>
             {
                 players.map(player => 
-                    <li key={player}>{player}</li>    
+                    {return player === turn ? 
+                        <li style={{color: "green"}} key={player}>{player} (Current Turn)</li>  
+                        :
+                        <li key={player}>{player}</li>
+                    }
+                    
                 )
             }
             </ul>
+            
+           {status === "Playing" && <Hand cards={cards}/>}
         </div>
+    )
+}
+
+function Hand(props){
+    var isArray = Array.isArray(props.cards)
+
+    return (
+         
+        <div>          
+            {isArray && 
+            <div>
+                <h3>Your Cards</h3> 
+                <Container fluid justify-content-center="true">
+                    <Row>
+                        {props.cards.map(cardId => 
+                            <Col style={{textAlign: 'center'}} key={cardId}>{cardId}</Col>
+                        )}
+                    </Row>
+                </Container> 
+            </div>
+            }
+            
+        </div>
+    
+        
     )
 }
 
